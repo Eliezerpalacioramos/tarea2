@@ -1,0 +1,68 @@
+@page "/ej/35"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 35</PageTitle> 
+
+<h3>Ejercicio 35</h3>
+
+<h3>Buscar Mayor Primo que Termina en 3</h3>
+
+<input @bind="InputVector" placeholder="Introduce números separados por comas" />
+<button @onclick="CalcularPosicion">Calcular Posición</button>
+
+@if (Posicion != -1)
+{
+    <p>La posición del mayor primo que termina en 3 es: @Posicion</p>
+}
+else
+{
+    <p>No se encontró ningún primo que termine en 3.</p>
+}
+
+@code {
+    private string InputVector { get; set; }
+    private int Posicion { get; set; } = -1;
+
+    private void CalcularPosicion()
+    {
+        if (string.IsNullOrWhiteSpace(InputVector)) return;
+
+        // Procesa la entrada del usuario y convierte a arreglo de enteros
+        int[] vector = InputVector.Split(',')
+            .Select(x => int.TryParse(x.Trim(), out int num) ? num : (int?)null)
+            .Where(x => x.HasValue)
+            .Select(x => x.Value)
+            .ToArray();
+
+        Posicion = PosicionMayorPrimoTerminaEn3(vector);
+    }
+
+    private int PosicionMayorPrimoTerminaEn3(int[] vector)
+    {
+        int posicion = -1;
+        int mayorPrimo = -1;
+
+        for (int i = 0; i < vector.Length; i++)
+        {
+            if (EsPrimo(vector[i]) && vector[i] % 10 == 3)
+            {
+                if (vector[i] > mayorPrimo)
+                {
+                    mayorPrimo = vector[i];
+                    posicion = i;
+                }
+            }
+        }
+
+        return posicion;
+    }
+
+    private bool EsPrimo(int numero)
+    {
+        if (numero <= 1) return false;
+        for (int i = 2; i <= Math.Sqrt(numero); i++)
+        {
+            if (numero % i == 0) return false;
+        }
+        return true;
+    }
+}

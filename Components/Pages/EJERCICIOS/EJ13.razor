@@ -1,0 +1,25 @@
+@page "/ej/13"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 13</PageTitle> 
+
+<h3>Ejercicio 13</h3>
+
+<h3>Cantidad de Veces que Aparece un Dígito</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<p>Ingresa un dígito:</p>
+<input @bind="digito" type="number" maxlength="1" />
+<button @onclick="ContarDigitos">Contar</button>
+
+<p>El dígito aparece @cantidadVeces veces en el número.</p>
+
+@code {
+    private int numero;
+    private int digito;
+    private int cantidadVeces;
+
+    private void ContarDigitos()
+    {
+        cantidadVeces = numero.ToString().Count(c => c == digito.ToString()[0]);
+    }
+}

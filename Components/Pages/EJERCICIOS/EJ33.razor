@@ -1,0 +1,26 @@
+@page "/ej/33"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 33</PageTitle> 
+
+<h3>Ejercicio 33</h3>
+
+<h3>Verificar si un Número Está en el Vector</h3>
+<p>Ingresa 10 números separados por comas:</p>
+<input @bind="vectorInput" type="text" />
+<p>Ingresa el número a buscar:</p>
+<input @bind="numeroBuscar" type="number" />
+<button @onclick="VerificarNumero">Verificar</button>
+
+<p>El número está en el vector: @estaNumero</p>
+
+@code {
+    private string vectorInput;
+    private int numeroBuscar;
+    private int estaNumero;
+
+    private void VerificarNumero()
+    {
+        var vector = vectorInput.Split(',').Select(int.Parse).ToArray();
+        estaNumero = vector.Contains(numeroBuscar) ? 1 : 0;
+    }
+}

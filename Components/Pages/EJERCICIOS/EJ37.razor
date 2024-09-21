@@ -1,0 +1,58 @@
+@page "/ej/37"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 37</PageTitle> 
+
+<h3>Ejercicio 37</h3>
+
+<h3>Cálculo de Potencia</h3>
+
+<div>
+    <label for="baseNum">Base:</label>
+    <input type="number" id="baseNum" @bind="BaseNum" />
+</div>
+<div>
+    <label for="exponente">Exponente:</label>
+    <input type="number" id="exponente" @bind="Exponente" />
+</div>
+<button @onclick="CalcularPotencia">Calcular Potencia</button>
+
+@if (Resultado.HasValue)
+{
+    <p>El resultado de @BaseNum elevado a @Exponente es: @Resultado</p>
+}
+else if (ErrorMensaje != null)
+{
+    <p style="color:red;">Error: @ErrorMensaje</p>
+}
+
+@code {
+    private int BaseNum { get; set; }
+    private int Exponente { get; set; }
+    private int? Resultado { get; set; }
+    private string ErrorMensaje { get; set; }
+
+    private void CalcularPotencia()
+    {
+        try
+        {
+            Resultado = Potencia(BaseNum, Exponente);
+            ErrorMensaje = null; // Limpiar mensaje de error
+        }
+        catch (ArgumentException ex)
+        {
+            Resultado = null; // Limpiar resultado
+            ErrorMensaje = ex.Message;
+        }
+    }
+
+    private int Potencia(int baseNum, int exponente)
+    {
+        if (baseNum < 0 || exponente < 0)
+            throw new ArgumentException("Ambos parámetros deben ser no negativos.");
+        
+        if (exponente == 0)
+            return 1;
+
+        return (int)Math.Pow(baseNum, exponente);
+    }
+}

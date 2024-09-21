@@ -1,0 +1,22 @@
+@page "/ej/01"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 1</PageTitle> 
+
+<h3>Ejercicio 1</h3>
+
+<h3>Último Dígito</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<button @onclick="ObtenerUltimoDigito">Obtener Último Dígito</button>
+
+<p>El último dígito es: @ultimoDigito</p>
+
+@code {
+    private int numero;
+    private int ultimoDigito;
+
+    private void ObtenerUltimoDigito()
+    {
+        ultimoDigito = numero % 10;
+    }
+}

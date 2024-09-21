@@ -1,0 +1,23 @@
+@page "/ej/31"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 31</PageTitle> 
+
+<h3>Ejercicio 31</h3>
+
+<h3>Retornar el Promedio Entero</h3>
+<p>Ingresa 10 números separados por comas:</p>
+<input @bind="vectorInput" type="text" />
+<button @onclick="CalcularPromedio">Calcular Promedio</button>
+
+<p>El promedio entero es: @promedioEntero</p>
+
+@code {
+    private string vectorInput;
+    private int promedioEntero;
+
+    private void CalcularPromedio()
+    {
+        var vector = vectorInput.Split(',').Select(int.Parse).ToArray();
+        promedioEntero = (int)vector.Average();
+    }
+}

@@ -1,0 +1,25 @@
+@page "/ej/15"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 15</PageTitle> 
+
+<h3>Ejercicio 15</h3>
+
+<h3>Verificar Múltiplo entre Dos Números</h3>
+<p>Ingresa el primer número:</p>
+<input @bind="numero1" type="number" />
+<p>Ingresa el segundo número:</p>
+<input @bind="numero2" type="number" />
+<button @onclick="VerificarMultiplo">Verificar</button>
+
+<p>El primer número es múltiplo del segundo: @esMultiplo</p>
+
+@code {
+    private int numero1;
+    private int numero2;
+    private int esMultiplo;
+
+    private void VerificarMultiplo()
+    {
+        esMultiplo = (numero1 % numero2 == 0) ? 1 : 0;
+    }
+}

@@ -1,0 +1,25 @@
+@page "/ej/29"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 29</PageTitle> 
+
+<h3>Ejercicio 29</h3>
+
+<h3>Contar Números de Fibonacci en un Vector</h3>
+<p>Ingresa 10 números separados por comas:</p>
+<input @bind="vectorInput" type="text" />
+<button @onclick="ContarFibonacci">Contar Fibonacci</button>
+
+<p>Cantidad de números Fibonacci: @cantidadFibonacci</p>
+
+@code {
+    private string vectorInput;
+    private int cantidadFibonacci;
+
+    private List<int> fibonacciSeries = new List<int> { 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946, 17711, 28657, 46368, 75025, 121393, 196418, 317811, 514229 };
+
+    private void ContarFibonacci()
+    {
+        var vector = vectorInput.Split(',').Select(int.Parse).ToArray();
+        cantidadFibonacci = vector.Count(x => fibonacciSeries.Contains(x));
+    }
+}

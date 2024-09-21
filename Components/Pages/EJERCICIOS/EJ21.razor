@@ -1,0 +1,23 @@
+@page "/ej/21"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 21</PageTitle> 
+
+<h3>Ejercicio 21</h3>
+
+<h3>Verificar si el Primer Dígito es Igual al Último</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<button @onclick="VerificarDigitos">Verificar</button>
+
+<p>El primer dígito es igual al último: @esIgual</p>
+
+@code {
+    private int numero;
+    private int esIgual;
+
+    private void VerificarDigitos()
+    {
+        string numeroStr = numero.ToString();
+        esIgual = (numeroStr[0] == numeroStr[numeroStr.Length - 1]) ? 1 : 0;
+    }
+}

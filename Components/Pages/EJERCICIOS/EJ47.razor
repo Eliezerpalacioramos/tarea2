@@ -1,0 +1,83 @@
+@page "/ej/47"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 47</PageTitle> 
+
+<h3>Ejercicio 47</h3>
+
+<h3>Incrementar el valor del vector</h3>
+
+<textarea @bind="InputVector" placeholder="Introduce los números del vector separados por comas (ej: 5,7,9)"></textarea>
+<br />
+<input type="number" @bind="NumeroDado" placeholder="Introduce el número dado" />
+<br />
+<button @onclick="IncrementarValor">Incrementar</button>
+
+@if (ResultadoVector != null)
+{
+    <p>Vector original: @string.Join(", ", VectorOriginal)</p>
+    <p>Vector incrementado: @string.Join(", ", ResultadoVector)</p>
+}
+else if (ErrorMensaje != null)
+{
+    <p style="color:red;">Error: @ErrorMensaje</p>
+}
+
+@code {
+    private string InputVector { get; set; }
+    private int NumeroDado { get; set; }
+    private int[] VectorOriginal { get; set; }
+    private int[] ResultadoVector { get; set; }
+    private string ErrorMensaje { get; set; }
+
+    private void IncrementarValor()
+    {
+        try
+        {
+            ErrorMensaje = null;
+            VectorOriginal = ProcesarEntrada(InputVector);
+            ResultadoVector = IncrementarValorVector(VectorOriginal, NumeroDado);
+        }
+        catch (Exception ex)
+        {
+            ResultadoVector = null;
+            ErrorMensaje = ex.Message;
+        }
+    }
+
+    private int[] ProcesarEntrada(string input)
+    {
+        string[] elementos = input.Split(',');
+        int[] vector = new int[elementos.Length];
+
+        for (int i = 0; i < elementos.Length; i++)
+        {
+            if (int.TryParse(elementos[i].Trim(), out int num))
+            {
+                vector[i] = num;
+            }
+            else
+            {
+                throw new ArgumentException("Todos los valores deben ser números enteros.");
+            }
+        }
+
+        return vector;
+    }
+
+    public int[] IncrementarValorVector(int[] vector, int numeroDado)
+    {
+        int[] nuevoVector = new int[vector.Length];
+        Array.Copy(vector, nuevoVector, vector.Length);
+
+        for (int i = 0; i < vector.Length; i++)
+        {
+            if (vector[i] == numeroDado)
+            {
+                nuevoVector[i]++;
+                break;
+            }
+        }
+
+        return nuevoVector;
+    }
+}

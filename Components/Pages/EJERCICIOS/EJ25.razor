@@ -1,0 +1,33 @@
+@page "/ej/25"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 25</PageTitle> 
+
+<h3>Ejercicio 25</h3>
+
+<h3>Retornar Dígito en la Posición</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<p>Ingresa la posición (dígito menor a 5):</p>
+<input @bind="posicion" type="number" min="0" max="4" />
+<button @onclick="RetornarDigitoPosicion">Obtener Dígito</button>
+
+<p>El dígito en la posición es: @digitoRetornado</p>
+
+@code {
+    private int numero;
+    private int posicion;
+    private int digitoRetornado;
+
+    private void RetornarDigitoPosicion()
+    {
+        string numStr = numero.ToString();
+        if (posicion < numStr.Length)
+        {
+            digitoRetornado = int.Parse(numStr[posicion].ToString());
+        }
+        else
+        {
+            digitoRetornado = -1; // Posición inválida
+        }
+    }
+}

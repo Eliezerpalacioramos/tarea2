@@ -1,0 +1,22 @@
+@page "/ej/19"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 19</PageTitle> 
+
+<h3>Ejercicio 19</h3>
+
+<h3>Verificar si un Número Tiene Mínimo 3 Dígitos</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<button @onclick="VerificarDigitos">Verificar</button>
+
+<p>El número tiene al menos 3 dígitos: @tieneTresDigitos</p>
+
+@code {
+    private int numero;
+    private int tieneTresDigitos;
+
+    private void VerificarDigitos()
+    {
+        tieneTresDigitos = (numero.ToString().Length >= 3) ? 1 : 0;
+    }
+}

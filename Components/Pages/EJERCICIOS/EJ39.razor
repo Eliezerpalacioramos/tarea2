@@ -1,0 +1,73 @@
+@page "/ej/39"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 39</PageTitle> 
+
+<h3>Ejercicio 39</h3>
+
+<h3>Contar Números que Terminan en 3</h3>
+
+<p>Introduce 10 números separados por comas:</p>
+<input @bind="InputVector" placeholder="Ej: 13, 23, 33, 43, 53, 1, 2, 3, 10, 11" />
+<br />
+<button @onclick="CalcularCantidad">Calcular Cantidad</button>
+
+@if (ErrorMensaje != null)
+{
+    <p style="color:red;">@ErrorMensaje</p>
+}
+else if (Cantidad.HasValue)
+{
+    <p>La cantidad de números que terminan en 3 es: @Cantidad</p>
+}
+
+@code {
+    private string InputVector { get; set; }
+    private int? Cantidad { get; set; } = null;
+    private string ErrorMensaje { get; set; } = null;
+
+    private void CalcularCantidad()
+    {
+        // Limpiar resultado y errores
+        Cantidad = null;
+        ErrorMensaje = null;
+
+        try
+        {
+            // Procesa la entrada del usuario y convierte a arreglo de enteros
+            int[] vector = InputVector.Split(',')
+                .Select(x => int.TryParse(x.Trim(), out int num) ? num : (int?)null)
+                .Where(x => x.HasValue)
+                .Select(x => x.Value)
+                .ToArray();
+
+            // Verifica que el vector tenga exactamente 10 elementos
+            if (vector.Length != 10)
+            {
+                ErrorMensaje = "El vector debe tener exactamente 10 elementos.";
+                return;
+            }
+
+            // Llama a la función para contar los números que terminan en 3
+            Cantidad = CantidadNumerosTerminanEn3(vector);
+        }
+        catch (Exception ex)
+        {
+            ErrorMensaje = $"Error: {ex.Message}";
+        }
+    }
+
+    private int CantidadNumerosTerminanEn3(int[] vector)
+    {
+        int contador = 0;
+
+        foreach (int numero in vector)
+        {
+            if (numero % 10 == 3)
+            {
+                contador++;
+            }
+        }
+
+        return contador;
+    }
+}

@@ -1,0 +1,92 @@
+@page "/ej/43"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 43</PageTitle> 
+
+<h3>Ejercicio 43</h3>
+
+<h3>Calcular la Cantidad de Números Primos en la Matriz</h3>
+
+<textarea @bind="InputMatriz" placeholder="Introduce los números separados por comas, con filas separadas por punto y coma (ej: 1,2,3;4,5,6)"></textarea>
+<br />
+<button @onclick="CalcularPrimos">Calcular Números Primos</button>
+
+@if (CantidadPrimos != -1)
+{
+    <p>La cantidad de números primos en la matriz es: @CantidadPrimos</p>
+}
+else if (ErrorMensaje != null)
+{
+    <p style="color:red;">Error: @ErrorMensaje</p>
+}
+
+@code {
+    private string InputMatriz { get; set; }
+    private int CantidadPrimos { get; set; } = -1;
+    private string ErrorMensaje { get; set; }
+
+    private void CalcularPrimos()
+    {
+        try
+        {
+            ErrorMensaje = null;
+            int[,] matriz = ProcesarEntrada(InputMatriz);
+            CantidadPrimos = CantidadNumerosPrimosMatriz(matriz);
+        }
+        catch (Exception ex)
+        {
+            CantidadPrimos = -1;
+            ErrorMensaje = ex.Message;
+        }
+    }
+
+    private int[,] ProcesarEntrada(string input)
+    {
+        string[] filas = input.Split(';');
+        int rowCount = filas.Length;
+        int colCount = filas[0].Split(',').Length;
+        int[,] matriz = new int[rowCount, colCount];
+
+        for (int i = 0; i < rowCount; i++)
+        {
+            string[] valores = filas[i].Split(',');
+            for (int j = 0; j < colCount; j++)
+            {
+                if (int.TryParse(valores[j].Trim(), out int num))
+                {
+                    matriz[i, j] = num;
+                }
+                else
+                {
+                    throw new ArgumentException("Todos los valores deben ser números enteros.");
+                }
+            }
+        }
+
+        return matriz;
+    }
+
+    private int CantidadNumerosPrimosMatriz(int[,] matriz)
+    {
+        int contador = 0;
+
+        foreach (int dato in matriz)
+        {
+            if (EsPrimo(dato))
+            {
+                contador++;
+            }
+        }
+
+        return contador;
+    }
+
+    private bool EsPrimo(int numero)
+    {
+        if (numero <= 1) return false;
+        for (int i = 2; i <= Math.Sqrt(numero); i++)
+        {
+            if (numero % i == 0) return false;
+        }
+        return true;
+    }
+}

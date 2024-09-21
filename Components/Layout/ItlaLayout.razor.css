@@ -1,0 +1,16 @@
+#divMain{
+    margin-top: 40px ;
+    margin-left: 40px ;
+    margin-right: 40px ;
+    margin-bottom: 50px ;
+    padding: 10px ;
+    border: 1px solid #000 ;
+    border-radius: 1px ;
+    background-color: #f0f0f0;
+    min-height: 500px ;
+}
+
+.LinkMudo{
+    color: #000;
+    text-decoration: none ;
+}

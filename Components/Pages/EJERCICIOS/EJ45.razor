@@ -1,0 +1,99 @@
+@page "/ej/45"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 45</PageTitle> 
+
+<h3>Ejercicio 45</h3>
+
+<h3>Buscar la posición del primer número primo en la matriz</h3>
+
+<textarea @bind="InputMatriz" placeholder="Introduce los números separados por comas, con filas separadas por punto y coma (ej: 1,2,3;4,5,6)"></textarea>
+<br />
+<button @onclick="BuscarPrimerPrimo">Buscar Primer Primo</button>
+
+@if (ResultadoPosicion != null)
+{
+    <p>El primer número primo se encuentra en la posición: Fila @ResultadoPosicion?.fila, Columna @ResultadoPosicion?.columna</p>
+}
+else if (ErrorMensaje != null)
+{
+    <p style="color:red;">Error: @ErrorMensaje</p>
+}
+else if (BusquedaRealizada)
+{
+    <p>No se encontró ningún número primo en la matriz.</p>
+}
+
+@code {
+    private string InputMatriz { get; set; }
+    private (int fila, int columna)? ResultadoPosicion { get; set; }
+    private bool BusquedaRealizada { get; set; } = false;
+    private string ErrorMensaje { get; set; }
+
+    private void BuscarPrimerPrimo()
+    {
+        try
+        {
+            ErrorMensaje = null;
+            int[,] matriz = ProcesarEntrada(InputMatriz);
+            ResultadoPosicion = PosicionPrimerPrimoMatriz(matriz);
+            BusquedaRealizada = true;
+        }
+        catch (Exception ex)
+        {
+            ResultadoPosicion = null;
+            BusquedaRealizada = false;
+            ErrorMensaje = ex.Message;
+        }
+    }
+
+    private int[,] ProcesarEntrada(string input)
+    {
+        string[] filas = input.Split(';');
+        int rowCount = filas.Length;
+        int colCount = filas[0].Split(',').Length;
+        int[,] matriz = new int[rowCount, colCount];
+
+        for (int i = 0; i < rowCount; i++)
+        {
+            string[] valores = filas[i].Split(',');
+            for (int j = 0; j < colCount; j++)
+            {
+                if (int.TryParse(valores[j].Trim(), out int num))
+                {
+                    matriz[i, j] = num;
+                }
+                else
+                {
+                    throw new ArgumentException("Todos los valores deben ser números enteros.");
+                }
+            }
+        }
+
+        return matriz;
+    }
+
+    private (int fila, int columna)? PosicionPrimerPrimoMatriz(int[,] matriz)
+    {
+        for (int i = 0; i < matriz.GetLength(0); i++)
+        {
+            for (int j = 0; j < matriz.GetLength(1); j++)
+            {
+                if (EsPrimo(matriz[i, j]))
+                {
+                    return (i, j);
+                }
+            }
+        }
+        return null;
+    }
+
+    private bool EsPrimo(int numero)
+    {
+        if (numero <= 1) return false;
+        for (int i = 2; i <= Math.Sqrt(numero); i++)
+        {
+            if (numero % i == 0) return false;
+        }
+        return true;
+    }
+}

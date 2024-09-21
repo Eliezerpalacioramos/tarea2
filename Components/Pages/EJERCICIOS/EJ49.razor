@@ -1,0 +1,107 @@
+@page "/ej/49"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 49</PageTitle> 
+
+<h3>Ejercicio 49</h3>
+
+<h3>Calcular la Moda de una Matriz</h3>
+
+<textarea @bind="InputMatriz" placeholder="Introduce la matriz en formato de filas separadas por comas. Ej: 1,2,3; 4,5,6"></textarea>
+<br />
+<button @onclick="CalcularModa">Calcular Moda</button>
+
+@if (ResultadoModa != null)
+{
+    <p>La moda de la matriz es: @ResultadoModa</p>
+}
+else if (ErrorMensaje != null)
+{
+    <p style="color:red;">Error: @ErrorMensaje</p>
+}
+
+@code {
+    private string InputMatriz { get; set; }
+    private int? ResultadoModa { get; set; }
+    private string ErrorMensaje { get; set; }
+
+    private void CalcularModa()
+    {
+        try
+        {
+            ErrorMensaje = null;
+            int[,] matriz = ProcesarEntrada(InputMatriz);
+            ResultadoModa = ModaMatriz(matriz);
+        }
+        catch (Exception ex)
+        {
+            ResultadoModa = null;
+            ErrorMensaje = ex.Message;
+        }
+    }
+
+    private int[,] ProcesarEntrada(string input)
+    {
+        string[] filas = input.Split(';');
+        int numFilas = filas.Length;
+        int numColumnas = filas[0].Split(',').Length;
+        int[,] matriz = new int[numFilas, numColumnas];
+
+        for (int i = 0; i < numFilas; i++)
+        {
+            string[] elementos = filas[i].Split(',');
+            if (elementos.Length != numColumnas)
+            {
+                throw new ArgumentException("Todas las filas deben tener la misma cantidad de columnas.");
+            }
+
+            for (int j = 0; j < numColumnas; j++)
+            {
+                if (int.TryParse(elementos[j].Trim(), out int num))
+                {
+                    matriz[i, j] = num;
+                }
+                else
+                {
+                    throw new ArgumentException("Todos los valores deben ser números enteros.");
+                }
+            }
+        }
+
+        return matriz;
+    }
+
+    public int ModaMatriz(int[,] matriz)
+    {
+        Dictionary<int, int> frecuencia = new Dictionary<int, int>();
+
+        for (int i = 0; i < matriz.GetLength(0); i++)
+        {
+            for (int j = 0; j < matriz.GetLength(1); j++)
+            {
+                int numero = matriz[i, j];
+                if (frecuencia.ContainsKey(numero))
+                {
+                    frecuencia[numero]++;
+                }
+                else
+                {
+                    frecuencia[numero] = 1;
+                }
+            }
+        }
+
+        int moda = matriz[0, 0];
+        int maxFrecuencia = 0;
+
+        foreach (var kvp in frecuencia)
+        {
+            if (kvp.Value > maxFrecuencia)
+            {
+                maxFrecuencia = kvp.Value;
+                moda = kvp.Key;
+            }
+        }
+
+        return moda;
+    }
+}

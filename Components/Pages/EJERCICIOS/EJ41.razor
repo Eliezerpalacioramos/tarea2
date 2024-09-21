@@ -1,0 +1,76 @@
+@page "/ej/41"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 41</PageTitle> 
+
+<h3>Ejercicio 41</h3>
+
+<h3>Calcular Repeticiones del Penúltimo Valor</h3>
+
+<textarea @bind="InputVector" placeholder="Introduce los números separados por comas"></textarea>
+<br />
+<button @onclick="CalcularRepeticiones">Calcular Repeticiones</button>
+
+@if (Cantidad != -1)
+{
+    <p>La cantidad de veces que el penúltimo valor se repite en el vector es: @Cantidad</p>
+}
+else if (ErrorMensaje != null)
+{
+    <p style="color:red;">Error: @ErrorMensaje</p>
+}
+
+@code {
+    private string InputVector { get; set; }
+    private int Cantidad { get; set; } = -1;
+    private string ErrorMensaje { get; set; }
+
+    private void CalcularRepeticiones()
+    {
+        try
+        {
+            ErrorMensaje = null; // Limpiar mensaje de error
+            int[] vector = ProcesarEntrada(InputVector);
+
+            if (vector.Length < 2)
+            {
+                throw new ArgumentException("El vector debe contener al menos 2 números.");
+            }
+
+            Cantidad = CantidadRepeticionesMayorDatoPenultimo(vector);
+        }
+        catch (Exception ex)
+        {
+            Cantidad = -1;
+            ErrorMensaje = ex.Message;
+        }
+    }
+
+    private int[] ProcesarEntrada(string input)
+    {
+        // Convertir el string en un array de enteros
+        return input.Split(',')
+            .Select(x => int.TryParse(x.Trim(), out int num) ? num : throw new ArgumentException("Todos los valores deben ser números enteros."))
+            .ToArray();
+    }
+
+    private int CantidadRepeticionesMayorDatoPenultimo(int[] vector)
+    {
+        // Verificar que el vector tenga al menos 2 elementos
+        if (vector.Length < 2) return 0;
+
+        // El penúltimo valor del vector
+        int penultimoValor = vector[vector.Length - 2];
+        int contador = 0;
+
+        // Contar cuántas veces aparece el penúltimo valor en el vector
+        foreach (int numero in vector)
+        {
+            if (numero == penultimoValor)
+            {
+                contador++;
+            }
+        }
+
+        return contador;
+    }
+}

@@ -1,0 +1,22 @@
+@page "/ej/03"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 3</PageTitle> 
+
+<h3>Ejercicio 3</h3>
+
+<h3>Cantidad de Dígitos</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<button @onclick="ContarDigitos">Contar Dígitos</button>
+
+<p>El número tiene: @cantidadDigitos dígitos</p>
+
+@code {
+    private int numero;
+    private int cantidadDigitos;
+
+    private void ContarDigitos()
+    {
+        cantidadDigitos = numero.ToString().Length;
+    }
+}

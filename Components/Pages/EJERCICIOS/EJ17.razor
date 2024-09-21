@@ -1,0 +1,22 @@
+@page "/ej/17"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 17</PageTitle> 
+
+<h3>Ejercicio 17</h3>
+
+<h3>Verificar Código ASCII de un Dígito</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<button @onclick="VerificarCodigoAscii">Verificar</button>
+
+<p>El número corresponde a un código ASCII de un dígito: @esCodigoAscii</p>
+
+@code {
+    private int numero;
+    private int esCodigoAscii;
+
+    private void VerificarCodigoAscii()
+    {
+        esCodigoAscii = (numero >= 48 && numero <= 57) ? 1 : 0;
+    }
+}

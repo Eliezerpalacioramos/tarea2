@@ -1,0 +1,25 @@
+@page "/ej/11"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 11</PageTitle> 
+
+<h3>Ejercicio 11</h3>
+
+<h3>Verificar Múltiplo de Dígito</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<p>Ingresa un dígito:</p>
+<input @bind="digito" type="number" maxlength="1" />
+<button @onclick="VerificarMultiplo">Verificar</button>
+
+<p>El número es múltiplo del dígito: @esMultiplo</p>
+
+@code {
+    private int numero;
+    private int digito;
+    private int esMultiplo;
+
+    private void VerificarMultiplo()
+    {
+        esMultiplo = (numero % digito == 0) ? 1 : 0;
+    }
+}

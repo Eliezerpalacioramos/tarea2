@@ -1,0 +1,26 @@
+@page "/ej/09"
+@rendermode InteractiveServer
+<PageTitle>Ejercicio 9</PageTitle> 
+
+<h3>Ejercicio 9</h3>
+
+<h3>Factorial de un Número</h3>
+<p>Ingresa un número:</p>
+<input @bind="numero" type="number" />
+<button @onclick="CalcularFactorial">Calcular Factorial</button>
+
+<p>El factorial es: @factorial</p>
+
+@code {
+    private int numero;
+    private long factorial;
+
+    private void CalcularFactorial()
+    {
+        factorial = 1;
+        for (int i = 1; i <= numero; i++)
+        {
+            factorial *= i;
+        }
+    }
+}
